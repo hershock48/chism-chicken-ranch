@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+  @media (max-width: 1023px) {
+    body {
+      padding-bottom: 72px;
+    }
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif text-ink;
+    letter-spacing: -0.015em;
+  }
+  ::selection {
+    @apply bg-terracotta text-cream;
+  }
+}
+
+@layer components {
+  .display {
+    @apply font-serif font-semibold tracking-tightish;
+  }
+  /* Upright color emphasis for a word in a heading (no italics). */
+  .accent {
+    @apply font-serif font-medium text-terracotta;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none;
+  }
+  .btn-primary {
+    @apply btn bg-terracotta text-cream shadow-soft hover:bg-terracotta-dark hover:-translate-y-0.5;
+  }
+  .btn-secondary {
+    @apply btn border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-cream;
+  }
+  .btn-ghost {
+    @apply btn bg-ink/[0.05] text-ink hover:bg-ink/10;
+  }
+  .btn-venmo {
+    @apply btn bg-[#008CFF] text-white hover:-translate-y-0.5;
+  }
+  .section {
+    @apply mx-auto max-w-6xl px-5 sm:px-8;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-terracotta;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply inline-block h-1.5 w-1.5 rounded-full bg-terracotta;
+  }
+  .card {
+    @apply rounded-2xl bg-cream shadow-soft ring-1 ring-ink/[0.06] transition-all duration-300;
+  }
+  .card-hover:hover {
+    @apply -translate-y-1.5 shadow-lift;
+  }
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #be5d4e;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
