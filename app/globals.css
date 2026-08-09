@@ -191,3 +191,117 @@ textarea:focus-visible {
   opacity: 1;
   transform: scale(1) rotate(-3deg);
 }
+
+/* Their logo, alive. See components/MarkRun.js — the reasoning, and why the hen
+   is cut out of their own JPEG rather than redrawn, lives there.
+
+   Everything below is inert until JS adds .is-running, and the un-animated state
+   is the hen already home. That ordering is deliberate: with the script blocked
+   or reduced motion asked for, the band is simply their logo. */
+.mark-run img {
+  /* Pixel art at ~1:1, so keep the browser from softening the linework. */
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* She starts this far right of her home spot. A viewport-relative distance so
+   she crosses the page rather than popping in at the edge of the mark, capped so
+   the run does not take forever on an ultrawide monitor. */
+.mark-run {
+  --run-from: min(64vw, 760px);
+}
+
+.mark-run.is-running .mark-hen {
+  /* Easing lives inside the keyframes, per segment, rather than as one curve
+     across the whole run. One curve was the first attempt and it was wrong in a
+     way that only measuring caught: a single ease-out put 98% of the travel in
+     the first half of the animation and left her creeping the last 17px for
+     three quarters of a second. A dash reads as a dash because the speed is flat
+     while it lasts and only breaks at the end. */
+  animation: markHenRun 1.8s linear both;
+}
+.mark-run.is-running .mark-hen-bob {
+  animation: markHenBob 0.115s linear 14;
+}
+.mark-run.is-running .mark-hen-idle {
+  /* Starts as the skid finishes. Very small on purpose: this is the "she is
+     alive" register, not a second piece of choreography. */
+  animation: markHenIdle 3.4s ease-in-out 1.6s infinite;
+}
+.mark-run.is-running .mark-grass {
+  animation: markGrassLand 1.8s ease-out both;
+}
+
+@keyframes markHenRun {
+  /* Flat-out, leaning into it. */
+  0% {
+    transform: translateX(var(--run-from)) rotate(-5deg);
+    animation-timing-function: linear;
+  }
+  /* Still a hen's length short of home when the braking starts, so the
+     deceleration is something you can see rather than a stop. */
+  62% {
+    transform: translateX(30%) rotate(-5deg);
+    animation-timing-function: cubic-bezier(0.22, 0.7, 0.3, 1);
+  }
+  /* Past her spot: the skid. */
+  84% {
+    transform: translateX(-2.6%) rotate(1.4deg) scaleY(0.94);
+    animation-timing-function: ease-out;
+  }
+  /* Back onto it, with the weight landing. */
+  93% {
+    transform: translateX(0.9%) rotate(-0.6deg) scaleY(1.02);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* Two frames, held, not eased. A chicken's gait is a stutter, and a smooth sine
+   bob reads as a float. Each cycle starts AND ends on the ground, which is why
+   the pairs of stops are written out: end a square wave at the top of the hop and
+   the last iteration snaps her 4px down the moment the bob stops. */
+@keyframes markHenBob {
+  0%, 24.9% {
+    transform: translateY(0);
+  }
+  25%, 74.9% {
+    transform: translateY(-3.6%);
+  }
+  75%, 100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes markHenIdle {
+  0%, 62%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  70% {
+    transform: translateY(-1.1%) rotate(-0.7deg);
+  }
+  78% {
+    transform: translateY(0) rotate(0deg);
+  }
+  85% {
+    transform: translateY(-0.7%) rotate(0.4deg);
+  }
+}
+
+/* The tuft arrives with her rather than waiting for her, so it reads as what she
+   kicks up on stopping. */
+@keyframes markGrassLand {
+  0%, 80% {
+    opacity: 0;
+    transform: translateY(6%) scale(0.86);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(-3%) scale(1.07);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}

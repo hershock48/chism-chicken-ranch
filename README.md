@@ -103,6 +103,67 @@ Update `site.url` in `lib/site.js` to the final domain so canonicals, sitemap, a
 OG tags point to the right place. After deploying, submit `/sitemap.xml` in Google
 Search Console.
 
+## The logo band: the hen runs into the mark
+
+`components/MarkRun.js`, in the cream band under the marquee. On the way into
+view the hen scurries in from off the right of the page, brakes, skids past her
+spot and settles inside the arch, with her grass tuft appearing as she stops. Then
+a very small idle keeps her breathing.
+
+This is a different request from the eggs, even though it arrived in the same
+conversation. The eggs answered the client's written note. This answers what she
+was actually reacting to: they kept praising glazedweb.com's animated donut, so
+what they wanted was *their own mark* doing what his does. The idea of running the
+chicken along to her spot is Kevin's.
+
+**The hen is their hen, not a drawing of one.** That decision carries everything
+else. Their logo exists only as `public/logo.jpg`, 500×500, and the hen inside it
+is 103×101 pixels of fine cross-hatched engraving. Redrawing her as vector line
+art was the obvious route and it was the wrong one: a redrawn hen would sit inside
+their real arch beside their real type, where the comparison is immediate and any
+wobble in the linework reads as a mistake. So she was cut out of the logo itself
+and is animated as pixels.
+
+`public/mark/` holds the three pieces lifted out of that JPEG:
+
+| File | What it is |
+| --- | --- |
+| `arch.png` | the mark with the hen and her grass removed — transparent line art, no cream of its own |
+| `hen.png` | the hen alone, comb to feet |
+| `grass.png` | the tuft she stands in, drawn over her feet |
+
+Composited over `#FAF0E6` at the offsets in the component they reproduce the
+original mark to a **mean error of 0.7 out of 255**, which is JPEG noise. When she
+is home, that band is their logo. Nothing in it has been approximated.
+
+Things that will break it if you do not know them:
+
+- **The band's background must be `bg-paper`, and that is not a "close enough"
+  cream.** `#FAF0E6` is the exact background inside their logo file. The sprites
+  had the cream divided back out of them when they were cut, so they only
+  composite seamlessly over that value. On any other background the linework picks
+  up a faint halo.
+- **The arch layer is transparent and draws on top of the hen**, so she runs
+  *behind* their type and behind the arch leg. The first version made it an opaque
+  tile with its own cream, and she crossed in front of their "2013" on the way in,
+  which read as a layering mistake rather than a choice.
+- **The offsets are measured, not eyeballed.** They are where each piece sat in
+  `logo.jpg` as a percentage of the cropped mark. Do not round them, and if you
+  re-export any asset, re-derive all three together — the aspect ratios are locked.
+- **Display at 300px or less.** The mark is 288px native. Past about 340px the
+  engraving starts to soften and it stops looking like their logo.
+- **Easing lives inside the keyframes, per segment, not as one curve.** One
+  ease-out across the whole run was the first attempt, and measuring it showed 98%
+  of the travel happening in the first half, leaving her to creep the last 17px for
+  three quarters of a second. A dash reads as a dash because the speed is flat
+  while it lasts and only breaks at the end.
+- **The run bob's keyframes start and end on the ground on purpose.** End a
+  two-frame square wave at the top of the hop and the last iteration snaps her 4px
+  down the instant the bob stops.
+- Nothing animates until JS adds `.is-running`, and the un-animated state is the
+  hen already home. With the script blocked, or reduced motion asked for, the band
+  is simply their logo. Both verified.
+
 ## The eggs above "Fresh from the pasture"
 
 `components/EggDrop.js`. Three eggs fall in as you scroll and settle in pasture

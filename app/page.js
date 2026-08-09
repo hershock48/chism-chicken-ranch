@@ -4,6 +4,7 @@ import ReservationCalculator from "@/components/ReservationCalculator";
 import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
 import EggDrop from "@/components/EggDrop";
+import MarkRun from "@/components/MarkRun";
 
 export const metadata = { alternates: { canonical: "/" } };
 
@@ -94,8 +95,22 @@ export default function Home() {
 
  <Marquee />
 
+ {/* THE MARK, ALIVE */}
+ {/* The client's actual ask, once Kevin read it properly: they kept talking about
+     glazedweb's drippy donut, so what they want is their own logo doing what his
+     does. The hen scurries in from off the right and settles into the arch. See
+     components/MarkRun.js.
+
+     bg-paper is not a near-enough cream, it is exactly the cream inside their
+     logo file (#FAF0E6), which is why the sprites composite into the band with no
+     visible seam. overflow-hidden is what lets her start off the side of the page
+     instead of at the edge of the mark. */}
+ <section className="overflow-hidden bg-paper py-16 sm:py-20">
+ <MarkRun />
+ </section>
+
  {/* VALUE PROPS */}
- <section className="section mt-20">
+ <section className="section mt-16">
  <div className="grid gap-5 sm:grid-cols-3">
  {[
  { title: "Always On The Move", body: "Onto fresh grass every few days, to peck, scratch and forage in the sun.", tone: "text-barn", bg: "bg-barn/10", icon: <path d="M3 20h18M5 20c0-4 2-7 5-7m9 7c0-5-3-9-7-9M8 13c-1-3 1-6 4-6m0 0c1 2 3 3 5 3" /> },
