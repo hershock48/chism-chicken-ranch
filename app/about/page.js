@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import { images, gallery } from "@/lib/site";
+import PhotoSlider from "@/components/PhotoSlider";
 
 export const metadata = {
  title: "About Us",
@@ -71,25 +72,14 @@ export default function AboutPage() {
  From pasture to <span className="accent">plate</span>
  </h2>
  <p className="mt-3 leading-relaxed text-ink-soft">
- A little look at the day-to-day, happy birds, hard work, and our
- kids growing up in it, including showing at the local 4-H fair.
+ The day-to-day: hard work, birds on grass, and our kids growing up in
+ the middle of it.
  </p>
  </div>
- <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
- {gallery.map((g) => (
- <div
- key={g.src}
- className="reveal aspect-[4/3] overflow-hidden rounded-2xl shadow-soft ring-1 ring-ink/[0.06]"
- >
- <img
- src={g.src}
- alt={g.alt}
- loading="lazy"
- className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
- />
- </div>
- ))}
- </div>
+ {/* Was a six-tile grid, which the client described as "just blocked
+     together". A slider gives each photo its own moment and its own caption,
+     and it is where Emelia's first year in 4-H now leads. */}
+ <PhotoSlider photos={gallery} />
  </div>
  </section>
 

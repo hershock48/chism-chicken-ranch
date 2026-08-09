@@ -104,3 +104,18 @@ textarea:focus-visible {
   }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* Photo slider track. The scrollbar is hidden because the dots, the counter and
+   the arrows already say where you are, and a raw scrollbar under a row of
+   photographs reads as a mistake. Hiding it is safe here: the track is
+   focusable, arrow keys scroll it, and the buttons work, so nothing depends on
+   the bar being visible. overscroll-behavior-x stops a swipe past the last photo
+   from triggering the browser's back gesture. */
+.ccr-track {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.ccr-track::-webkit-scrollbar {
+  display: none;
+}
