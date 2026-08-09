@@ -3,6 +3,7 @@ import { site, images } from "@/lib/site";
 import ReservationCalculator from "@/components/ReservationCalculator";
 import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
+import EggDrop from "@/components/EggDrop";
 
 export const metadata = { alternates: { canonical: "/" } };
 
@@ -121,8 +122,26 @@ export default function Home() {
  </section>
 
  {/* PRODUCTS PREVIEW */}
- <section className="section mt-24">
- <div className="reveal flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+ {/* mt-10 rather than the mt-24 every other section uses: the egg band opens with
+     roughly 110px of empty sky for the eggs to fall through, so it brings its own
+     top margin. Leaving mt-24 on top of that put 300px of nothing between the
+     value cards and the heading. */}
+ <section className="section mt-10">
+ {/* The client's one request for motion, and she was specific about where: "a
+     little bit of motion... going from your webpage to clicking on C.C.Ranch
+     underneath the header saying 'fresh from the shop'. Suggestion: for the
+     motion effect, maybe we can have the chicken lay an egg here to break
+     things up, lol!"
+
+     "Fresh from the shop" is the header on glazedweb.com that her card sits
+     under. This is the same header on her own site, so the eggs go directly
+     above it: they drop in as you scroll and settle in the grass, and your eye
+     carries on down into "Fresh from the pasture" and the products. That is the
+     break in the page she asked for, and it lands on the section it belongs to
+     rather than floating between two unrelated ones. */}
+ <EggDrop />
+
+ <div className="reveal mt-3 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
  <div>
  <span className="eyebrow">from our farm</span>
  <h2 className="mt-3 display text-4xl sm:text-5xl">

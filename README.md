@@ -103,6 +103,57 @@ Update `site.url` in `lib/site.js` to the final domain so canonicals, sitemap, a
 OG tags point to the right place. After deploying, submit `/sitemap.xml` in Google
 Search Console.
 
+## The eggs above "Fresh from the pasture"
+
+`components/EggDrop.js`. Three eggs fall in as you scroll and settle in pasture
+grass, each on its own scroll window, each squashing slightly as it lands. It sits
+directly above the products heading on the home page.
+
+It exists because the client asked for it and pointed at where she had seen it:
+*"a little bit of motion... going from your webpage to clicking on C.C.Ranch
+underneath the header saying 'fresh from the shop'. Suggestion: for the motion
+effect, maybe we can have the chicken lay an egg here to break things up, lol!"*
+The Chism card on glazedweb.com already drops eggs on scroll, so she had seen the
+effect and described it back to us.
+
+**The mechanic is lifted from that card, not re-invented.** Same fall distance
+relative to the headroom, same overlapping scroll windows, same half-sine squash
+in the last 14% of each fall, same shadow that deepens and widens as the egg
+arrives, same settled-scene behaviour under `prefers-reduced-motion`. If the
+glazedweb version is ever retuned, retune it there and copy the numbers across.
+
+Two deliberate departures, both explained at the top of the component: the eggs
+are brown and cream farm eggs rather than glazed ones (the green glaze cap is the
+Glazed Web logo, and on a poultry farm's own site it reads as a spoiled egg), and
+there is no hen — the "bok bok bok" bubble puts her just off frame instead, which
+is one `<g>` and one CSS block to delete if the client would rather it went.
+
+Things worth knowing before editing it:
+
+- The whole drawing, **bubble included**, lives inside one `viewBox`. The bubble
+  started as an absolutely-positioned `<span>` with a px font size, and because the
+  band scales with the viewport while the span did not, the gap between the bubble
+  and the small egg closed as the screen narrowed: clear by 1px at 390, overlapping
+  the shell by 18px at 320. In SVG it holds the same relationship at every width.
+  If you move anything, `eggfit.mjs` (kept outside the repo, alongside `audit.mjs`)
+  measures that gap from 320px to 1600px.
+- Egg positions and sizes are arguments to `eggPath()`, and the grass is two arrays
+  of `[x, baseY, height, lean, width, fill]`. Nothing is a hand-typed path except
+  the three sheen arcs, so moving an egg means changing one number — plus its
+  shadow, its speckles and its sheen, which is why the component comments name
+  them together.
+- **JS lifts the eggs out of frame, it does not put them down.** Their resting place
+  is where they are in the markup, so with the script blocked the band renders as
+  three eggs already settled in the grass rather than an empty strip. Verified.
+- `transform-box: fill-box` in `globals.css` is load-bearing. Without it a CSS
+  transform on an SVG group is measured from the origin of the `viewBox`, so
+  `transform-origin: 50% 100%` would mean the bottom of the whole drawing and the
+  eggs would swing instead of squashing on their own bases.
+- The band is left-aligned, not centred, and the products section drops to `mt-10`
+  from the `mt-24` the others use. Both are for the same reason: the band carries
+  about 110px of empty sky at the top for the eggs to fall through, and the point
+  is for the eggs to land on top of the heading rather than float near it.
+
 ## Notes
 
 - The site is intentionally **photo-lite** (type/graphic driven) — no stock imagery.
