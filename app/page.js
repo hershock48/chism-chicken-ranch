@@ -305,9 +305,16 @@ export default function Home() {
  </li>
  ))}
  </ul>
+ /* Venmo lives at checkout only. The client's note was that the button is
+                "visually redundant and needs to be on the checkout page when you
+                list payment options" - and it already was: ReserveStore shows
+                "Pay $X by Venmo" with the actual deposit amount beside the card
+                option. So the ask was never to add it somewhere, it was to stop
+                repeating it. A payment button in front of somebody who has not
+                chosen anything yet has no amount to offer and no order to pay
+                for. */
  <div className="mt-7 flex flex-wrap gap-3">
  <Link href="/reserve" className="btn-primary">Reserve Now</Link>
- <a href={site.venmo} target="_blank" rel="noopener noreferrer" className="btn-venmo">Pay with Venmo</a>
  </div>
  </div>
  <div className="reveal">

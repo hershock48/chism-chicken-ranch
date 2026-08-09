@@ -54,8 +54,7 @@ export default function ReservePage() {
  deposit is non-refundable, we use it to buy your chicks and their
  starter feed. Final price is by actual weight at pickup (chickens
  average ~{site.pricing.avgWeight} lb, roughly ${site.pricing.perBird} per bird).
- Prefer to pay another way or buying in bulk for a restaurant or farm
- store?{" "}
+ Prefer to pay another way?{" "}
  <Link href="/contact" className="font-semibold text-terracotta hover:underline">
  Message us
  </Link>{" "}
@@ -63,6 +62,19 @@ export default function ReservePage() {
  <a href={site.venmo} target="_blank" rel="noopener noreferrer" className="font-semibold text-terracotta hover:underline">
  pay by Venmo
  </a>
+ .
+ </p>
+ {/* This page is where the hero's main call to action lands, and it had no
+     route to wholesale at all: the old copy above mentioned buying in bulk
+     for a restaurant or farm store and then sent those people to a contact
+     form, past the page built for them. Split out and pointed at
+     /wholesale, since a buyer who has read this far is exactly the one the
+     client did not want sifting through retail. */}
+ <p className="mt-4 border-t border-ink/10 pt-4">
+ Buying in bulk for a restaurant, farm store or co-op?{" "}
+ <Link href="/wholesale" className="font-semibold text-terracotta hover:underline">
+ See wholesale pricing and volumes
+ </Link>
  .
  </p>
  </div>

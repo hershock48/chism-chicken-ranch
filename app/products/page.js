@@ -106,7 +106,6 @@ export default function ProductsPage() {
  </div>
  <div className="flex flex-wrap justify-center gap-3">
  <Link href="/contact" className="btn-primary">Contact Us</Link>
- <a href={site.venmo} target="_blank" rel="noopener noreferrer" className="btn-venmo">Pay with Venmo</a>
  </div>
  </div>
  </section>

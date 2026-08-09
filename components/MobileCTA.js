@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { site } from "@/lib/site";
 
 export default function MobileCTA() {
   const pathname = usePathname();
@@ -10,20 +9,14 @@ export default function MobileCTA() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 p-3 shadow-[0_-8px_24px_-12px_rgba(59,47,40,0.3)] backdrop-blur lg:hidden">
-      <div className="flex gap-3">
-        <Link href="/reserve" className="btn-primary flex-1">
-          Reserve Birds
-        </Link>
-        <a
-          href={site.venmo}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Pay with Venmo"
-          className="btn-venmo px-5"
-        >
-          Venmo
-        </a>
-      </div>
+      {/* Was Reserve plus a Venmo button, pinned to the bottom of every page on
+          every phone. That was the most redundant instance of all: a payment
+          button following you around the site with nothing to pay for, and no
+          amount to show. Venmo now appears once, at checkout, with the deposit
+          figure next to it. The bar keeps the half that was doing work. */}
+      <Link href="/reserve" className="btn-primary block w-full text-center">
+        Reserve Birds
+      </Link>
     </div>
   );
 }
