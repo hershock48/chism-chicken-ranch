@@ -38,7 +38,11 @@ export default function Footer() {
  Explore
  </h4>
  <ul className="mt-4 space-y-2 text-sm">
- {nav.map((item) => (
+ {/* Contact is filtered out here rather than removed from nav: it belongs in
+     the header and on mobile, it just does not belong in a list of places to
+     browse. It reappears under Get In Touch below, which is where a visitor
+     looking for it actually reads. */}
+ {nav.filter((item) => item.href !== "/contact").map((item) => (
  <li key={item.href}>
  <Link href={item.href} className="text-cream/70 transition-colors hover:text-cream">
  {item.label}
@@ -60,14 +64,12 @@ export default function Footer() {
  </a>
  </li>
  <li>
- <a
- href={site.venmo}
- target="_blank"
- rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 rounded-full bg-[#008CFF] px-3 py-1.5 font-semibold text-white transition-opacity hover:opacity-90"
+ <Link
+ href="/contact"
+ className="inline-flex items-center gap-1.5 rounded-full bg-wheat px-4 py-2 font-semibold text-ink transition-opacity hover:opacity-90"
  >
- Pay with Venmo
- </a>
+ Get in touch <span aria-hidden>&rarr;</span>
+ </Link>
  </li>
  </ul>
  </div>
