@@ -186,18 +186,24 @@ glazedweb version is ever retuned, retune it there and copy the numbers across.
 Two deliberate departures, both explained at the top of the component: the eggs
 are brown and cream farm eggs rather than glazed ones (the green glaze cap is the
 Glazed Web logo, and on a poultry farm's own site it reads as a spoiled egg), and
-there is no hen — the "bok bok bok" bubble puts her just off frame instead, which
-is one `<g>` and one CSS block to delete if the client would rather it went.
+there is no hen — eggs falling from above frame is nice motion, a hen standing
+next to eggs falling out of the sky is confusing, and the glazedweb card cut its
+own hen for the same reason. A "bok bok bok" bubble briefly stood in for her here
+and was removed: the hen is now on the same page running into the logo, so a
+speech bubble further down was introducing a chicken you had already met.
 
 Things worth knowing before editing it:
 
-- The whole drawing, **bubble included**, lives inside one `viewBox`. The bubble
-  started as an absolutely-positioned `<span>` with a px font size, and because the
-  band scales with the viewport while the span did not, the gap between the bubble
-  and the small egg closed as the screen narrowed: clear by 1px at 390, overlapping
-  the shell by 18px at 320. In SVG it holds the same relationship at every width.
-  If you move anything, `eggfit.mjs` (kept outside the repo, alongside `audit.mjs`)
-  measures that gap from 320px to 1600px.
+- **The egg cluster sits left of the band's centre, and that is not a mistake.**
+  It was originally to leave room on the right for the speech bubble. The bubble is
+  gone and the offset stayed, because the grass patch is what centres the band and
+  the composition is better slightly off-axis than dead centred.
+- **Anything positioned over this band belongs inside the `viewBox`, not on top of
+  it in HTML.** That is what the bubble got wrong before it was deleted: as an
+  absolutely-positioned `<span>` with a px font size it stayed put while the band
+  scaled with the viewport, so its clearance from the small egg closed as screens
+  narrowed — 1px at 390, overlapping the shell by 18px at 320. In SVG units a gap
+  cannot drift.
 - Egg positions and sizes are arguments to `eggPath()`, and the grass is two arrays
   of `[x, baseY, height, lean, width, fill]`. Nothing is a hand-typed path except
   the three sheen arcs, so moving an egg means changing one number — plus its

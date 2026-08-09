@@ -168,30 +168,6 @@ textarea:focus-visible {
   will-change: transform;
 }
 
-/* The chicken, off-frame. She pops while you are scrolling past and goes quiet
-   1.2s after you stop, which is the same behaviour as the card on glazedweb.
-   terracotta-dark on cream measures 6.01, so it clears AA even though it is
-   decorative and sits inside an aria-hidden drawing.
-
-   The bubble itself is SVG, not an absolutely-positioned span — the reasoning is
-   in EggDrop.js next to the markup. All that is left here is the pop, and it is
-   the same shape of transition the span had. transform-origin sits near the tail
-   tip so she unfolds from the spot she is standing in rather than swelling from
-   her own middle. Delete this block and the <g className="bok"> in EggDrop.js to
-   lose the joke without touching the motion. */
-.egg-drop .bok {
-  transform-box: fill-box;
-  transform-origin: 18% 128%;
-  transform: scale(0.2) rotate(-8deg);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.22s ease;
-}
-.egg-drop.boking .bok {
-  opacity: 1;
-  transform: scale(1) rotate(-3deg);
-}
-
 /* Their logo, alive. See components/MarkRun.js — the reasoning, and why the hen
    is cut out of their own JPEG rather than redrawn, lives there.
 

@@ -30,15 +30,17 @@ import { useEffect, useRef } from "react";
  *    her note not taken literally, for a straightforward reason: eggs falling
  *    from above the frame is a nice piece of motion, and a hen standing next to
  *    eggs falling out of the sky is a confusing one. The glazedweb card had a hen
- *    and it was cut for the same reason. What survives of the joke is the "bok
- *    bok bok" that pops while the eggs are dropping — the chicken is off-frame
- *    and audible, which is funnier than drawing her. That bubble is one group at
- *    the end of the drawing and one CSS block; if she wants it gone it goes in a
- *    minute, and the motion is untouched.
+ *    and it was cut for the same reason.
  *
- * The egg cluster sits left of the band's centre rather than in the middle of it,
- * which is not an accident of drawing: it leaves the right-hand side to the
- * bubble. Subject left, speech right.
+ *    There was briefly a "bok bok bok" bubble here to keep the joke without
+ *    drawing her, and Kevin cut it. Right call: the hen is now on the same page,
+ *    running into the logo forty lines up, so a speech bubble down here was
+ *    telling you about a chicken you had already met.
+ *
+ * The egg cluster sits left of the band's centre rather than in the middle of it.
+ * That was originally to leave the right-hand side to the bubble; with the bubble
+ * gone it stays because the composition is better slightly off-axis than dead
+ * centred, and because the grass patch is what centres the band, not the eggs.
  *
  * Everything here is decorative: the SVG is aria-hidden, the bubble is
  * aria-hidden, and nothing on the page depends on any of it. With JavaScript off
@@ -221,7 +223,6 @@ export default function EggDrop() {
     root.classList.add("egg-drop-armed");
 
     let raf = 0;
-    let hideT = 0;
     let visible = false;
 
     const render = () => {
@@ -238,19 +239,16 @@ export default function EggDrop() {
     const io = new IntersectionObserver(
       (entries) => {
         visible = entries[0].isIntersecting;
-        if (!visible) root.classList.remove("boking");
-        else render();
+        if (visible) render();
       },
       { threshold: 0.2 }
     );
     io.observe(root);
 
     const onScroll = () => {
-      if (visible) {
-        root.classList.add("boking");
-        clearTimeout(hideT);
-        hideT = setTimeout(() => root.classList.remove("boking"), 1200);
-      }
+      // visible is still read here rather than being dropped with the bubble: an
+      // off-screen band has nothing to redraw, so skipping the frame is the point.
+      if (!visible) return;
       if (!raf) raf = requestAnimationFrame(render);
     };
 
@@ -261,9 +259,8 @@ export default function EggDrop() {
       io.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      clearTimeout(hideT);
       if (raf) cancelAnimationFrame(raf);
-      root.classList.remove("egg-drop-armed", "boking");
+      root.classList.remove("egg-drop-armed");
     };
   }, []);
 
@@ -358,36 +355,6 @@ export default function EggDrop() {
           {GRASS_FRONT.map(([x, y, h, lean, w, fill], i) => (
             <path key={`gf${i}`} d={bladePath(x, y, h, lean, w)} fill={fill} />
           ))}
-        </g>
-
-        {/* The chicken, off-frame right, drawn last so she sits in front of the
-            grass. This is inside the SVG rather than positioned over it as HTML,
-            and that is the whole point: as an absolutely-positioned span with a
-            px font size, the bubble stayed the same size while the band shrank
-            with the viewport, so the gap between it and the small egg closed as
-            the screen narrowed. It cleared by 1px at 390 and overlapped the shell
-            by 18px at 320. In here it is in the same coordinate space as the eggs
-            and holds the same relationship to them at every width, which is a
-            thing that cannot drift rather than a number that happened to fit. */}
-        <g className="bok">
-          <path
-            d="M 274 148 L 340 148 A 12 12 0 0 1 340 172 L 290 172 L 266 184 L 278 172 L 274 172 A 12 12 0 0 1 274 148 Z"
-            fill="#FFFCF6"
-            stroke="#3B2F28"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-          <text
-            x="307"
-            y="164"
-            textAnchor="middle"
-            fontSize="11.5"
-            fontWeight="800"
-            letterSpacing="0.2"
-            fill="#9E4739"
-          >
-            bok bok bok
-          </text>
         </g>
       </svg>
     </div>
