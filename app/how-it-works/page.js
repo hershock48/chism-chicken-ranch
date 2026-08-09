@@ -1,12 +1,12 @@
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import ReservationCalculator from "@/components/ReservationCalculator";
-import { images } from "@/lib/site";
+import { images, site } from "@/lib/site";
 
 export const metadata = {
  title: "How It Works",
  description:
- "Reserve your pasture-raised chickens from CCR in a few simple steps, pre-purchase with a deposit, then pick up fresh or ask about delivery.",
+ `Reserve your pasture-raised chickens from ${site.short} in a few simple steps, pre-purchase with a deposit, then pick up fresh or ask about delivery.`,
  alternates: { canonical: "/how-it-works" },
 };
 

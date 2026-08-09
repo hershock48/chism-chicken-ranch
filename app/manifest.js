@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 export default function manifest() {
   return {
     name: site.name,
-    short_name: "CCR",
+    short_name: site.short,
     description: site.description,
     start_url: "/",
     display: "standalone",

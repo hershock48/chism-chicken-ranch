@@ -35,8 +35,7 @@ export default function Home() {
      thing no number or badge can: what you can actually buy, and from whom. */}
  <p className="reveal mt-6 max-w-xl text-lg leading-relaxed text-cream/85">
  Chicken and eggs from small batches, moved to fresh pasture as they
- graze. Reserve for your freezer or for your menu, and pick it up
- fresh.
+ graze.
  </p>
  <div className="reveal mt-9 flex flex-wrap gap-4">
  <Link href="/reserve" className="btn-primary">
@@ -98,15 +97,15 @@ export default function Home() {
  <section className="section mt-20">
  <div className="grid gap-5 sm:grid-cols-3">
  {[
- { title: "Always On The Move", body: "Moved to fresh grass regularly, where they peck, scratch and forage in the sunshine.", tone: "text-barn", bg: "bg-barn/10", icon: <path d="M3 20h18M5 20c0-4 2-7 5-7m9 7c0-5-3-9-7-9M8 13c-1-3 1-6 4-6m0 0c1 2 3 3 5 3" /> },
+ { title: "Always On The Move", body: "Onto fresh grass every few days, to peck, scratch and forage in the sun.", tone: "text-barn", bg: "bg-barn/10", icon: <path d="M3 20h18M5 20c0-4 2-7 5-7m9 7c0-5-3-9-7-9M8 13c-1-3 1-6 4-6m0 0c1 2 3 3 5 3" /> },
  // Titles and bodies rewritten to stop restating the stats row. "Clean Feed"
  // was Non-GMO plus no antibiotics plus no hormones, all three of which are
  // already numbers above; it now says what the ration actually is and why the
  // foraging matters. "Local & Transparent" was the fourth mention of Michigan;
  // the hatchery and the batch size are the new information, so those stay and
  // the geography goes.
- { title: "Fed Well, Not Fast", body: "A 28% protein ration, plus whatever they turn up themselves. The foraging is what you taste.", tone: "text-terracotta", bg: "bg-terracotta/10", icon: <path d="M12 3v18M5 8c2 0 4 1 7 4M19 8c-2 0-4 1-7 4" /> },
- { title: "Small Batches, Start to Finish", body: "Chicks come from a hatchery we know, and stay in batches small enough that we know the birds too.", tone: "text-wheat", bg: "bg-wheat/20", icon: <path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6" /> },
+ { title: "Fed Well, Not Fast", body: "A 28% protein ration, plus whatever they turn up themselves. That is what you taste.", tone: "text-terracotta", bg: "bg-terracotta/10", icon: <path d="M12 3v18M5 8c2 0 4 1 7 4M19 8c-2 0-4 1-7 4" /> },
+ { title: "Small Batches, Start to Finish", body: "Chicks from a hatchery we know, in batches small enough that we know the birds.", tone: "text-wheat", bg: "bg-wheat/20", icon: <path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6" /> },
  ].map((c) => (
  <div key={c.title} className="card card-hover reveal p-7">
  <span className={`grid h-12 w-12 place-items-center rounded-xl ${c.bg} ${c.tone}`}>
@@ -169,9 +168,7 @@ export default function Home() {
  Built for your table, or your <span className="accent">business</span>
  </h2>
  <p className="mt-4 leading-relaxed text-ink-soft">
- Whether you&apos;re filling your family&apos;s freezer or sourcing
- pasture-raised poultry for a menu or a farm store, we can raise it
- for you.
+ Filling a freezer or stocking a kitchen, we can raise it for you.
  </p>
  </div>
 

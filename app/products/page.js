@@ -70,7 +70,7 @@ export default function ProductsPage() {
  eyebrow="from our farm"
  title="Our"
  accent="products"
- subtitle="Here at CCR the birds are raised in fresh air with green grass under their feet, and you can taste the difference."
+ subtitle={`Here at ${site.short} the birds are raised in fresh air with green grass under their feet, and you can taste the difference.`}
  image={images.meat}
  />
 
