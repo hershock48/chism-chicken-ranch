@@ -8,11 +8,19 @@ import { nav } from "@/lib/site";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Separate from `scrolled` on purpose. The shadow wants to appear the instant
+  // the page moves; this one is about whether the home page's logo masthead is
+  // still on screen, so it needs the height of that band, not 8px.
+  const [pastMasthead, setPastMasthead] = useState(false);
   const pathname = usePathname();
+  const onHome = pathname === "/";
 
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      setPastMasthead(window.scrollY > 150);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -31,7 +39,20 @@ export default function Navbar() {
             alt="Chism Chicken Ranch logo"
             className="h-12 w-12 rounded-full object-cover"
           />
-          <span className="hidden font-serif text-lg font-semibold text-ink sm:block">
+          {/* On the home page the full logo lockup sits 40px below this, arch,
+              wordmark and all, so at the top of the page the header repeating the
+              name is the third time it appears inside 600px. It fades in as the
+              masthead scrolls away and the header takes the branding over.
+
+              Opacity rather than hidden, deliberately: the element stays in the
+              accessibility tree and in the layout, so nothing shifts and nothing
+              is lost to a screen reader. Off the home page there is no masthead,
+              so it is simply always there. */}
+          <span
+            className={`hidden font-serif text-lg font-semibold text-ink transition-opacity duration-300 sm:block ${
+              onHome && !pastMasthead ? "opacity-0" : "opacity-100"
+            }`}
+          >
             Chism Chicken Ranch
           </span>
         </Link>

@@ -35,6 +35,11 @@ import { useEffect, useRef } from "react";
  * from the left would mean mirroring her, and a hen who flips direction on
  * arrival is a hen with two poses.
  *
+ * This band opens the home page, above the hero, so the run happens on load. Two
+ * consequences are handled below and both matter: the animation waits for the
+ * sprites to have painted, and then waits a beat longer so the visitor is looking
+ * when she goes.
+ *
  * The grass appears as she stops rather than sitting there waiting, so the tuft
  * doubles as the dust she kicks up. It is also why her sprite carries her whole
  * legs and feet: the tuft draws over them at the end, exactly as in the original.
@@ -56,16 +61,45 @@ export default function MarkRun() {
     // for, the band renders as their logo and stays that way.
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0].isIntersecting) return;
-        el.classList.add("is-running");
-        io.disconnect(); // an entrance, once — not every time you scroll past
-      },
-      { threshold: 0.45 }
+    let io;
+    let timer;
+    let cancelled = false;
+
+    // The band opens the page now, so this fires on load rather than on scroll,
+    // and that makes the sprites' load state matter: start the run before hen.png
+    // has painted and she is missing for the dash and simply appears in the arch.
+    // Waiting on the images is the difference between an entrance and a pop-in.
+    const painted = Promise.all(
+      Array.from(el.querySelectorAll("img")).map(
+        (img) =>
+          img.complete ||
+          new Promise((res) => {
+            img.addEventListener("load", res, { once: true });
+            img.addEventListener("error", res, { once: true });
+          })
+      )
     );
-    io.observe(el);
-    return () => io.disconnect();
+
+    painted.then(() => {
+      if (cancelled) return;
+      io = new IntersectionObserver(
+        (entries) => {
+          if (!entries[0].isIntersecting) return;
+          // A beat before she goes, so the visitor's eye has arrived and the run
+          // is something they watch rather than something already half over.
+          timer = setTimeout(() => el.classList.add("is-running"), 280);
+          io.disconnect(); // an entrance, once — not every time you scroll past
+        },
+        { threshold: 0.45 }
+      );
+      io.observe(el);
+    });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      io?.disconnect();
+    };
   }, []);
 
   return (
@@ -79,7 +113,14 @@ export default function MarkRun() {
           keeps her alive once she has arrived. */}
       <span className="mark-hen absolute" style={HEN}>
         <span className="mark-hen-bob block">
-          <img src="/mark/hen.png" alt="" width="103" height="101" className="mark-hen-idle block w-full" />
+          <img
+            src="/mark/hen.png"
+            alt=""
+            width="103"
+            height="101"
+            fetchPriority="high"
+            className="mark-hen-idle block w-full"
+          />
         </span>
       </span>
 
@@ -95,6 +136,7 @@ export default function MarkRun() {
         alt=""
         width="288"
         height="283"
+        fetchPriority="high"
         className="pointer-events-none relative block w-full"
       />
 

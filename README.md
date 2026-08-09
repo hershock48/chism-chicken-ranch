@@ -105,10 +105,11 @@ Search Console.
 
 ## The logo band: the hen runs into the mark
 
-`components/MarkRun.js`, in the cream band under the marquee. On the way into
-view the hen scurries in from off the right of the page, brakes, skids past her
-spot and settles inside the arch, with her grass tuft appearing as she stops. Then
-a very small idle keeps her breathing.
+`components/MarkRun.js`, in the cream band that **opens the home page**, above the
+hero. On load the hen scurries in from off the right of the page, brakes, skids
+past her spot and settles inside the arch, with her grass tuft appearing as she
+stops. Then a very small idle keeps her breathing. It is the first thing the site
+does, which is the same job the donut does at the top of glazedweb.com.
 
 This is a different request from the eggs, even though it arrived in the same
 conversation. The eggs answered the client's written note. This answers what she
@@ -163,6 +164,18 @@ Things that will break it if you do not know them:
 - Nothing animates until JS adds `.is-running`, and the un-animated state is the
   hen already home. With the script blocked, or reduced motion asked for, the band
   is simply their logo. Both verified.
+- **Because it is above the fold, the run waits for the sprites to have painted
+  and then waits a further 280ms.** Above the fold the IntersectionObserver fires
+  during load, and starting the dash before `hen.png` has decoded means she is
+  absent for the run and simply appears in the arch. The extra beat is so the
+  visitor is looking when she goes rather than arriving to find it half over.
+- **The header's text wordmark fades in only once you are 150px down, and only on
+  the home page** (`components/Navbar.js`). With the masthead directly below it,
+  the header repeating the name made it the third appearance inside 600px; now the
+  header takes the branding over as the masthead scrolls away. It is opacity, not
+  `hidden`, so nothing shifts and nothing is lost to a screen reader. `pastMasthead`
+  is deliberately separate from `scrolled`: the header shadow still wants to appear
+  the instant the page moves.
 
 ## The eggs above "Fresh from the pasture"
 

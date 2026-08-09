@@ -11,6 +11,25 @@ export const metadata = { alternates: { canonical: "/" } };
 export default function Home() {
  return (
  <>
+ {/* THE MARK, ALIVE */}
+ {/* The client's actual ask, once Kevin read it properly: they kept talking about
+     glazedweb's drippy donut, so what they want is their own logo doing what his
+     does. The hen scurries in from off the right and settles into the arch. See
+     components/MarkRun.js.
+
+     It opens the page, above the hero, so this is the first thing that happens on
+     the site rather than something you scroll into. That is what moves it from a
+     nice detail to the thing the site says hello with — and it is the same job the
+     donut does at the top of glazedweb.com.
+
+     bg-paper is not a near-enough cream, it is exactly the cream inside their
+     logo file (#FAF0E6), which is why the sprites composite into the band with no
+     visible seam. overflow-hidden is what lets her start off the side of the page
+     instead of at the edge of the mark. */}
+ <section className="overflow-hidden bg-paper pb-10 pt-8 sm:pb-12 sm:pt-10">
+ <MarkRun />
+ </section>
+
  {/* HERO */}
  <section className="relative overflow-hidden">
  <img
@@ -94,20 +113,6 @@ export default function Home() {
  </section>
 
  <Marquee />
-
- {/* THE MARK, ALIVE */}
- {/* The client's actual ask, once Kevin read it properly: they kept talking about
-     glazedweb's drippy donut, so what they want is their own logo doing what his
-     does. The hen scurries in from off the right and settles into the arch. See
-     components/MarkRun.js.
-
-     bg-paper is not a near-enough cream, it is exactly the cream inside their
-     logo file (#FAF0E6), which is why the sprites composite into the band with no
-     visible seam. overflow-hidden is what lets her start off the side of the page
-     instead of at the edge of the mark. */}
- <section className="overflow-hidden bg-paper py-16 sm:py-20">
- <MarkRun />
- </section>
 
  {/* VALUE PROPS */}
  <section className="section mt-16">
