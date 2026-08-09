@@ -23,9 +23,22 @@ import { useEffect, useRef } from "react";
  *
  * public/mark/ holds the three pieces that came out of logo.jpg:
  *
- *   arch.png   the mark with the hen and her grass lifted out
+ *   arch.svg   the type and arch, VECTOR — traced from their own artwork
  *   hen.png    the hen alone, comb to feet
  *   grass.png  the tuft she stands in, which draws on top of her feet
+ *
+ * The type is vector because 288px of JPEG is not enough for it. The band renders
+ * the mark at ~300 CSS px, which on a 2x screen means the browser wants 600 device
+ * pixels and had 288, so their wordmark was being upscaled twofold and looked it.
+ * It is traced from their own bitmap rather than set in a guessed typeface, for the
+ * same reason the hen is not redrawn: those are their letterforms, and a typeface
+ * that is nearly right changes the shape of their name. /home/claude/trace_mark.py
+ * has the derivation, including why the threshold is 162 and not a rounder number.
+ *
+ * The hen cannot go the same way and that was tested, not assumed: her body is
+ * light cream with faint stippling, so at any threshold that keeps the type honest
+ * she traces to nothing at all. She stays pixels, and at this size the softness
+ * reads as engraving.
  *
  * Composited at the offsets below they reproduce the original mark to a mean
  * error of 0.15 out of 255, which is JPEG noise. When she is home, this IS their
@@ -132,7 +145,7 @@ export default function MarkRun() {
           their logo file, and it is: bg-paper, #FAF0E6. Layered that way the
           settled mark matches the original to a mean error of 0.7/255. */}
       <img
-        src="/mark/arch.png"
+        src="/mark/arch.svg"
         alt=""
         width="288"
         height="283"

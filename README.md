@@ -129,13 +129,47 @@ and is animated as pixels.
 
 | File | What it is |
 | --- | --- |
-| `arch.png` | the mark with the hen and her grass removed — transparent line art, no cream of its own |
+| `arch.svg` | the type and arch, **vector** — traced from their own artwork |
 | `hen.png` | the hen alone, comb to feet |
 | `grass.png` | the tuft she stands in, drawn over her feet |
 
-Composited over `#FAF0E6` at the offsets in the component they reproduce the
-original mark to a **mean error of 0.7 out of 255**, which is JPEG noise. When she
-is home, that band is their logo. Nothing in it has been approximated.
+Layered over `#FAF0E6` at the offsets in the component they reproduce the original
+mark. When she is home, that band is their logo. Nothing in it has been
+approximated.
+
+### Why the type is vector
+
+288px of JPEG is not enough for it. The band renders the mark at ~300 CSS px,
+which on a 2× screen means the browser asks for 600 device pixels and had 288, so
+their wordmark was being upscaled twofold — and it looked it.
+
+It is **traced from their own bitmap**, not set in a matching typeface, for exactly
+the reason the hen is not redrawn: those are their letterforms, and a font that is
+nearly right changes the shape of their name. `trace_mark.py` (kept outside the
+repo with the other tooling) has the derivation. Three things in it are worth
+knowing before you regenerate it:
+
+- **The threshold is 162 because it was measured, not chosen.** Every candidate
+  from 88 to 172 was traced, rendered at the mark's native size over the mark's
+  own background, and diffed against their JPEG; 162 is the minimum error, and the
+  curve is flat from 154 to 166. Lower thresholds look bolder than their logo,
+  because a solid shape at full ink has to be *narrower* than an anti-aliased one
+  to carry the same weight.
+- **A single layer, not two.** An earlier version traced twice — a solid core plus
+  a lighter halo — to rebuild the anti-aliasing. It read as embossed: a solid halo
+  under a solid core is a hard step, not a gradient, so every letter came out
+  looking outlined.
+- **The 8× upscale before thresholding is load-bearing.** potrace's curves are only
+  as smooth as the grid it is given, and tracing the 288px original directly
+  follows the JPEG's stair-stepping instead of the letterform.
+
+It is also smaller over the wire than the PNG it replaced: 16.7KB gzipped against
+33KB, because path data compresses and a PNG does not.
+
+**The hen cannot go the same way, and that was tested rather than assumed.** Her
+body is light cream with faint stippling, so at any threshold that keeps the type
+honest she traces to zero paths — nothing at all. She stays pixels, and at this
+size the softness reads as engraving rather than as a mistake.
 
 Things that will break it if you do not know them:
 
@@ -151,8 +185,11 @@ Things that will break it if you do not know them:
 - **The offsets are measured, not eyeballed.** They are where each piece sat in
   `logo.jpg` as a percentage of the cropped mark. Do not round them, and if you
   re-export any asset, re-derive all three together — the aspect ratios are locked.
-- **Display at 300px or less.** The mark is 288px native. Past about 340px the
-  engraving starts to soften and it stops looking like their logo.
+- **Display at 300px or less — for the hen's sake now, not the type's.** The type is
+  vector and sharp at any size. `hen.png` is 103px native, so past about 340px she
+  starts to soften noticeably while the type beside her stays crisp, and the
+  mismatch is what looks wrong. A higher-resolution logo file from the client would
+  lift that ceiling; it is worth asking whether one exists.
 - **Easing lives inside the keyframes, per segment, not as one curve.** One
   ease-out across the whole run was the first attempt, and measuring it showed 98%
   of the travel happening in the first half, leaving her to creep the last 17px for
