@@ -27,9 +27,16 @@ export default function Home() {
  raised right.
  </span>
  </h1>
+ {/* Was a spec list: Non-GMO, no antibiotics, no hormones, pasture, Marshall.
+     Every one of those is restated in the stats row 60px below it, again in
+     the marquee below that, and again in the value cards below that. The
+     client's note was that the same information repeats within four or five
+     sentences, and it did, four times over. This paragraph now carries the one
+     thing no number or badge can: what you can actually buy, and from whom. */}
  <p className="reveal mt-6 max-w-xl text-lg leading-relaxed text-cream/85">
- Happy birds on green grass and fresh air, Non-GMO fed, no
- antibiotics or hormones, butchered humanely. Farm-to-table chicken and eggs from Marshall, Michigan.
+ Chicken and eggs from small batches, moved to fresh pasture as they
+ graze. Reserve for your freezer or for your menu, and pick it up
+ fresh.
  </p>
  <div className="reveal mt-9 flex flex-wrap gap-4">
  <Link href="/reserve" className="btn-primary">
@@ -42,6 +49,28 @@ export default function Home() {
  How It Works
  </Link>
  </div>
+
+ {/* The wholesale door, in the hero. /wholesale already existed but the only
+     ways to it were the nav's seventh item and a card two thirds of the way
+     down the page, so a chef or a farm store had to scroll through the whole
+     retail pitch to find their own route. The client's note: "They're not
+     gonna wanna sift through everything to find where they need to go for
+     them."
+
+     Deliberately a text link and not a third button. Families are the volume
+     business and the two buttons above are theirs; a wholesaler is looking for
+     the word "wholesale" and will find it, while nobody else has to step
+     around it. */}
+ <p className="reveal mt-6 text-sm text-cream/70">
+ Buying for a restaurant, farm store or co-op?{" "}
+ <Link
+ href="/wholesale"
+ className="group inline-flex items-center gap-1 font-semibold text-wheat-light underline decoration-wheat-light/40 underline-offset-4 hover:decoration-wheat-light"
+ >
+ See wholesale
+ <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">&rarr;</span>
+ </Link>
+ </p>
 
  <dl className="reveal mt-14 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
  {[
@@ -69,9 +98,15 @@ export default function Home() {
  <section className="section mt-20">
  <div className="grid gap-5 sm:grid-cols-3">
  {[
- { title: "Raised on Pasture", body: "Moved to fresh grass regularly where they peck, scratch, and forage in the sunshine.", tone: "text-barn", bg: "bg-barn/10", icon: <path d="M3 20h18M5 20c0-4 2-7 5-7m9 7c0-5-3-9-7-9M8 13c-1-3 1-6 4-6m0 0c1 2 3 3 5 3" /> },
- { title: "Clean Feed, Clean Meat", body: "A 28% protein Non-GMO ration plus everything they forage, no antibiotics, no hormones.", tone: "text-terracotta", bg: "bg-terracotta/10", icon: <path d="M12 3v18M5 8c2 0 4 1 7 4M19 8c-2 0-4 1-7 4" /> },
- { title: "Local & Transparent", body: "Chicks from a Michigan hatchery, raised in small batches, with care you can see.", tone: "text-wheat", bg: "bg-wheat/20", icon: <path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6" /> },
+ { title: "Always On The Move", body: "Moved to fresh grass regularly, where they peck, scratch and forage in the sunshine.", tone: "text-barn", bg: "bg-barn/10", icon: <path d="M3 20h18M5 20c0-4 2-7 5-7m9 7c0-5-3-9-7-9M8 13c-1-3 1-6 4-6m0 0c1 2 3 3 5 3" /> },
+ // Titles and bodies rewritten to stop restating the stats row. "Clean Feed"
+ // was Non-GMO plus no antibiotics plus no hormones, all three of which are
+ // already numbers above; it now says what the ration actually is and why the
+ // foraging matters. "Local & Transparent" was the fourth mention of Michigan;
+ // the hatchery and the batch size are the new information, so those stay and
+ // the geography goes.
+ { title: "Fed Well, Not Fast", body: "A 28% protein ration, plus whatever they turn up themselves. The foraging is what you taste.", tone: "text-terracotta", bg: "bg-terracotta/10", icon: <path d="M12 3v18M5 8c2 0 4 1 7 4M19 8c-2 0-4 1-7 4" /> },
+ { title: "Small Batches, Start to Finish", body: "Chicks come from a hatchery we know, and stay in batches small enough that we know the birds too.", tone: "text-wheat", bg: "bg-wheat/20", icon: <path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6" /> },
  ].map((c) => (
  <div key={c.title} className="card card-hover reveal p-7">
  <span className={`grid h-12 w-12 place-items-center rounded-xl ${c.bg} ${c.tone}`}>

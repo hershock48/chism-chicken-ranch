@@ -1,12 +1,14 @@
+// Trimmed from eight to five. "Pasture-raised", "Non-GMO fed" and "No
+// antibiotics" came out because the stats row sits directly above this strip and
+// states all three as numbers, which is both more scannable and more convincing
+// than a scrolling badge. What is left is the things that appear nowhere else in
+// the first screen, so the strip adds instead of echoing.
 const DEFAULT_ITEMS = [
-  "Pasture-raised",
-  "Non-GMO fed",
-  "No antibiotics",
-  "No hormones",
   "Humanely raised",
-  "Est. 2013",
   "Proud to support local 4-H",
+  "Family-run since 2013",
   "Marshall, Michigan",
+  "APPPA member",
 ];
 
 export default function Marquee({ items = DEFAULT_ITEMS }) {
