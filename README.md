@@ -99,9 +99,18 @@ Built to be search-legit out of the box:
 - Dynamic Open Graph / Twitter image generated at `app/opengraph-image.js`
 - Web app manifest + theme color + SVG favicon
 
-Update `site.url` in `lib/site.js` to the final domain so canonicals, sitemap, and
-OG tags point to the right place. After deploying, submit `/sitemap.xml` in Google
-Search Console.
+`site.url` in `lib/site.js` is the one string every canonical tag, the sitemap, the
+JSON-LD `@id` and every OG url are built from. It is now
+`https://www.chismchickenranch.com`. It sat on the `.vercel.app` host for a while after
+the real domain went live, which meant the site was telling search engines that a
+duplicate of itself was the original — worth checking first if canonicals ever look
+wrong again.
+
+`www` rather than the apex because the apex answers 308 on asset paths and Vercel lists
+`www` first among the project's domains. If the apex is actually primary, it is one word
+here.
+
+After deploying, submit `/sitemap.xml` in Google Search Console.
 
 ## The logo band: the hen runs into the mark
 
