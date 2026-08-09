@@ -87,7 +87,7 @@ export default function ProductsPage() {
  <dl className="mt-6 grid grid-cols-2 gap-3">
  {p.facts.map(([k, v]) => (
  <div key={k} className="rounded-xl bg-cream px-4 py-3 ring-1 ring-ink/[0.06]">
- <dt className="text-xs uppercase tracking-wider text-ink-soft/60">{k}</dt>
+ <dt className="text-xs uppercase tracking-wider text-ink-soft">{k}</dt>
  <dd className="mt-0.5 font-semibold text-ink">{v}</dd>
  </div>
  ))}

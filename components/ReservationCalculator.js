@@ -22,7 +22,7 @@ export default function ReservationCalculator() {
  <h3 className="font-serif text-2xl font-semibold text-cream">
  Reservation Estimator
  </h3>
- <p className="mt-1 text-sm text-cream/70">
+ <p className="mt-1 text-sm text-cream/85">
  See your deposit and a ballpark total before you reserve.
  </p>
  </div>
@@ -66,7 +66,7 @@ export default function ReservationCalculator() {
  <Row label="Balance at pickup" sub="Total minus your deposit" value={money(balance)} />
  </dl>
 
- <p className="mt-4 text-xs leading-relaxed text-ink-soft/70">
+ <p className="mt-4 text-xs leading-relaxed text-ink-soft">
  Estimates only, final price is by actual weight at pickup. Deposits
  reserve your birds and cover chicks &amp; starter feed.
  </p>
@@ -84,7 +84,7 @@ function Row({ label, sub, value, highlight }) {
  <div className={`flex items-end justify-between gap-4 rounded-xl px-4 py-3 ${highlight ? "bg-wheat/25 ring-1 ring-wheat" : "bg-paper"}`}>
  <dt>
  <span className="block text-sm font-semibold text-ink">{label}</span>
- <span className="block text-xs text-ink-soft/70">{sub}</span>
+ <span className="block text-xs text-ink-soft">{sub}</span>
  </dt>
  <dd className="font-serif text-xl font-semibold text-ink">{value}</dd>
  </div>

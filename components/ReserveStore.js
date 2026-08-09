@@ -220,7 +220,7 @@ function Row({ label, sub, value, highlight }) {
  <div className={`flex items-end justify-between gap-4 rounded-xl px-4 py-3 ${highlight ? "bg-wheat/25 ring-1 ring-wheat" : "bg-cream"}`}>
  <dt>
  <span className="block font-semibold text-ink">{label}</span>
- <span className="block text-xs text-ink-soft/70">{sub}</span>
+ <span className="block text-xs text-ink-soft">{sub}</span>
  </dt>
  <dd className="font-serif text-xl font-semibold text-ink">{value}</dd>
  </div>

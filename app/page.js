@@ -60,7 +60,7 @@ export default function Home() {
      business and the two buttons above are theirs; a wholesaler is looking for
      the word "wholesale" and will find it, while nobody else has to step
      around it. */}
- <p className="reveal mt-6 text-sm text-cream/70">
+ <p className="reveal mt-6 text-sm text-cream/85">
  Buying for a restaurant, farm store or co-op?{" "}
  <Link
  href="/wholesale"
@@ -232,7 +232,7 @@ export default function Home() {
  <div className="mt-12 grid gap-6 md:grid-cols-2">
  <div className="reveal rounded-2xl border border-cream/15 bg-cream/5 p-7">
  <h3 className="font-serif text-2xl text-cream/80">Free Range</h3>
- <ul className="mt-4 space-y-3 text-sm text-cream/70">
+ <ul className="mt-4 space-y-3 text-sm text-cream/85">
  {["Some access to the outdoors, but rules vary widely.", "May still spend much of the day indoors.", "Outdoor area can be small and crowded.", "Diet is mostly grain, with limited natural foraging."].map((t) => (
  <li key={t} className="flex gap-3"><Dot muted /> {t}</li>
  ))}
@@ -241,7 +241,7 @@ export default function Home() {
  <div className="reveal rounded-2xl border-2 border-wheat bg-wheat/10 p-7">
  <h3 className="font-serif text-2xl text-wheat-light">
  Pasture-Raised
- <span className="ml-2 align-middle text-xs font-bold uppercase tracking-wider text-cream/70">Our way</span>
+ <span className="ml-2 align-middle text-xs font-bold uppercase tracking-wider text-cream/85">Our way</span>
  </h3>
  <ul className="mt-4 space-y-3 text-sm text-cream/90">
  {["Outdoors most of the day in moveable, predator-safe coops.", "Rotated to fresh pasture regularly.", "Constant access to grass, insects & sunshine.", "Varied, nutrient-rich diet and real exercise."].map((t) => (

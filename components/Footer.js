@@ -14,7 +14,7 @@ export default function Footer() {
  />
  <h3 className="font-serif text-2xl text-cream">Chism Chicken Ranch</h3>
  </div>
- <p className="mt-4 max-w-sm text-sm leading-relaxed text-cream/70">
+ <p className="mt-4 max-w-sm text-sm leading-relaxed text-cream/85">
  {site.tagline} Family-run by Derek Chism &amp; Tiffany Tucker since
  {" "}
  {site.established}, raising happy, healthy birds for our community
@@ -44,7 +44,7 @@ export default function Footer() {
      looking for it actually reads. */}
  {nav.filter((item) => item.href !== "/contact").map((item) => (
  <li key={item.href}>
- <Link href={item.href} className="text-cream/70 transition-colors hover:text-cream">
+ <Link href={item.href} className="text-cream/85 transition-colors hover:text-cream">
  {item.label}
  </Link>
  </li>
@@ -56,7 +56,7 @@ export default function Footer() {
  <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-wheat-light">
  Get In Touch
  </h4>
- <ul className="mt-4 space-y-3 text-sm text-cream/70">
+ <ul className="mt-4 space-y-3 text-sm text-cream/85">
  <li>{site.location}</li>
  <li>
  <a href={`mailto:${site.email}`} className="transition-colors hover:text-cream">
@@ -76,7 +76,7 @@ export default function Footer() {
  </div>
 
  <div className="border-t border-cream/10">
- <div className="section flex flex-col items-center justify-between gap-2 py-5 text-xs text-cream/50 sm:flex-row">
+ <div className="section flex flex-col items-center justify-between gap-2 py-5 text-xs text-cream/65 sm:flex-row">
  <p>© {new Date().getFullYear()} Chism Chicken Ranch. All rights reserved.</p>
  <p>Est. {site.established} · Pasture-raised in Marshall, Michigan · APPPA member</p>
  </div>

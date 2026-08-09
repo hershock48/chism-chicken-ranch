@@ -78,7 +78,11 @@ export default function PhotoSlider({ photos }) {
         // A horizontal scroller needs to be focusable to be operable by
         // keyboard alone, and needs a role and label to explain itself.
         tabIndex={0}
-        role="group"
+        // No role here, and that is the fix rather than an omission. role="group"
+        // overrides a ul's implicit role of list, which orphaned all seven li
+        // children and gave axe seven "listitem" violations: an li has to sit
+        // inside something with role=list. A ul takes aria-label perfectly well
+        // on its own and keeps its semantics.
         aria-label="Photographs from the farm, scroll or use the buttons below"
       >
         {photos.map((p, i) => (
@@ -133,7 +137,7 @@ export default function PhotoSlider({ photos }) {
             </li>
           ))}
         </ol>
-        <p className="text-xs uppercase tracking-[0.14em] text-ink-soft/70">
+        <p className="text-xs uppercase tracking-[0.14em] text-ink-soft">
           {active + 1} / {photos.length}
         </p>
       </div>

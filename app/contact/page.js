@@ -29,7 +29,7 @@ export default function ContactPage() {
           <div className="card p-6">
             <h3 className="font-serif text-xl font-semibold text-ink">Prefer to reach out directly?</h3>
             <div className="mt-4 space-y-3">
-              <a href={site.venmo} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-xl bg-[#008CFF] px-5 py-4 font-semibold text-white transition-transform hover:-translate-y-0.5">
+              <a href={site.venmo} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-xl bg-[#0070CF] px-5 py-4 font-semibold text-white transition-transform hover:-translate-y-0.5">
                 Pay / Reserve with Venmo <span aria-hidden>→</span>
               </a>
               <a href={`mailto:${site.email}`} className="flex items-center justify-between rounded-xl bg-paper-dark px-5 py-4 font-semibold text-ink transition-colors hover:bg-wheat/40">

@@ -14,8 +14,19 @@
       padding-bottom: 72px;
     }
   }
+  /* No colour here, deliberately. This rule used to @apply text-ink, which put
+     an explicit colour on every heading and therefore BEAT any colour inherited
+     from a parent. So a heading dropped into a dark band, where the section
+     wrapper says text-cream, silently came out in dark brown on dark brown: the
+     "Taste the difference for yourself" h2 on the terracotta band measured 2.48
+     against a 3:1 requirement. Every heading on every coloured section had the
+     same fault waiting in it.
+
+     Headings now inherit. body already sets text-ink, so nothing on a light
+     ground changes, and a heading inside a text-cream section finally gets
+     cream. One line, and the whole class of bug goes with it. */
   h1, h2, h3, h4 {
-    @apply font-serif text-ink;
+    @apply font-serif;
     letter-spacing: -0.015em;
   }
   ::selection {
@@ -44,7 +55,11 @@
     @apply btn bg-ink/[0.05] text-ink hover:bg-ink/10;
   }
   .btn-venmo {
-    @apply btn bg-[#008CFF] text-white hover:-translate-y-0.5;
+    /* Venmo's own brand blue is #008CFF, and white on it measures 3.39 against a
+     4.5 requirement, so their brand colour fails AA for button text. Darkened to
+     #0070CF, which reads as 4.98 and still reads unmistakably as Venmo. Their
+     brand guidance is not a reason to ship text somebody cannot read. */
+    @apply btn bg-[#0070CF] text-white hover:-translate-y-0.5;
   }
   .section {
     @apply mx-auto max-w-6xl px-5 sm:px-8;
