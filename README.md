@@ -112,6 +112,34 @@ here.
 
 After deploying, submit `/sitemap.xml` in Google Search Console.
 
+## The green marquee strip, and why it sat still for months
+
+`components/Marquee.js` plus the `@keyframes marquee` block in `app/globals.css`. It
+scrolls the credibility line under the hero.
+
+**Keep those keyframes in `globals.css`, next to the rule that uses them.** They were
+declared in `tailwind.config.js`, and Tailwind only emits a `@keyframes` block when the
+utility that references it (`animate-marquee`) actually appears in the scanned markup.
+Nothing used the utility, because this plain `.marquee-track` rule named the animation
+directly — so the keyframes were purged from the build and `animation: marquee` pointed
+at a name that did not exist. The strip had never moved once.
+
+What makes that worth writing down is how healthy it looks while broken:
+`animation-play-state` reports `running` and `animation-duration` reports the full
+duration, because the animation *is* attached. There is simply nothing to interpolate.
+The only way to catch it is to read the element's transform twice and compare, which is
+what `marquee.mjs` in the tooling does.
+
+Two related things fixed at the same time:
+
+- **Duration is 20s, not 34s.** Over a 1329px half-track that is ~66px/sec. The original
+  34s worked out at 39px/sec, slow enough to read as static even when working — a word
+  takes five seconds to cross a phone screen. One number to retune.
+- **Hover-pause is behind `@media (hover: hover) and (pointer: fine)`.** On a touch
+  screen `:hover` latches after a tap and does not reliably let go, so a finger brushing
+  the strip while scrolling could freeze it indefinitely. Verified: before the guard, one
+  simulated tap put it in `animation-play-state: paused` and left it there.
+
 ## The logo band: the hen runs into the mark
 
 `components/MarkRun.js`, in the cream band that **opens the home page**, above the

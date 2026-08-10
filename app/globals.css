@@ -91,14 +91,45 @@
   transform: translateY(0);
 }
 
-/* Marquee */
+/* Marquee.
+   The keyframes are written out here, right next to the rule that uses them, and
+   that is the whole fix rather than a style preference. They were declared in
+   tailwind.config.js instead, and Tailwind only emits a @keyframes block when the
+   utility that references it (animate-marquee) actually appears in the scanned
+   markup. Nothing used the utility — this plain rule named the animation directly
+   — so the keyframes were purged and `animation: marquee` pointed at nothing.
+
+   The symptom is nasty because it looks healthy: animation-play-state reports
+   "running" and animation-duration reports the full 34s, but the transform never
+   changes, because there is nothing to interpolate between. The strip had never
+   moved once. Keep the keyframes in this file and it cannot happen again.
+
+   The loop is seamless because Marquee.js renders the item list twice and this
+   travels exactly -50%, so the halfway point is pixel-identical to the start. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 34s linear infinite;
+  /* 20s over a 1329px half-track is ~66px/sec. The original 34s worked out at
+     39px/sec, which is slow enough to read as static even when it is working —
+     a word takes five seconds to cross a phone. This is one number to retune. */
+  animation: marquee 20s linear infinite;
 }
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
+/* Pause on hover only where hovering is a real thing. On a touch screen :hover
+   latches after a tap and does not always let go, so a finger brushing the strip
+   while scrolling could freeze it indefinitely — verified here: one tap put it in
+   animation-play-state: paused. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 a:focus-visible,

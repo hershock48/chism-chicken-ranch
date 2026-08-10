@@ -26,13 +26,12 @@ module.exports = {
         soft: "0 16px 44px -20px rgba(59, 47, 40, 0.30)",
         lift: "0 28px 60px -28px rgba(59, 47, 40, 0.40)",
       },
-      keyframes: {
-        marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-      },
-      animation: { marquee: "marquee 34s linear infinite" },
+      // The marquee keyframes used to live here and it did not work: Tailwind only
+      // emits a @keyframes block when its matching utility (animate-marquee) appears
+      // in the scanned markup, and nothing used the utility — a plain rule in
+      // globals.css named the animation directly. So the keyframes were purged and
+      // the strip never moved. They now live in globals.css beside the rule that
+      // uses them. Do not move them back here without also using the utility.
     },
   },
   plugins: [],
