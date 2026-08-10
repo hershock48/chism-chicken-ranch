@@ -1,5 +1,5 @@
 import Link from "next/link";
-import GlazedCredit from "@/components/GlazedCredit";
+import GlazedPlate from "@/components/GlazedPlate";
 import { nav, site } from "@/lib/site";
 
 export default function Footer() {
@@ -80,9 +80,11 @@ export default function Footer() {
  <div className="section flex flex-col items-center justify-between gap-x-8 gap-y-2 py-5 text-xs text-cream/65 sm:flex-row sm:flex-wrap">
  <p>© {new Date().getFullYear()} Chism Chicken Ranch. All rights reserved.</p>
  <p>Est. {site.established} · Pasture-raised in Marshall, Michigan · APPPA member</p>
- <GlazedCredit line="Double Dipped by" />
  </div>
  </div>
+
+   {/* Glazed Web signs off below the client's footer, not inside it. */}
+   <GlazedPlate line="Double Dipped by" />
  </footer>
  );
 }
