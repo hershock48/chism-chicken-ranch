@@ -80,7 +80,7 @@ export default function Footer() {
  <div className="section flex flex-col items-center justify-between gap-x-8 gap-y-2 py-5 text-xs text-cream/65 sm:flex-row sm:flex-wrap">
  <p>© {new Date().getFullYear()} Chism Chicken Ranch. All rights reserved.</p>
  <p>Est. {site.established} · Pasture-raised in Marshall, Michigan · APPPA member</p>
- <GlazedCredit line="Double dipped by" />
+ <GlazedCredit line="Double Dipped by" />
  </div>
  </div>
  </footer>
