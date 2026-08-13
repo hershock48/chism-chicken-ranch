@@ -116,13 +116,18 @@ function Social({ href, label, children }) {
  );
 }
 
-// Client-side so the year is the reader's year, not the deploy's.
+// The build year is baked in as the starting value, then the client corrects it
+// to the reader's year on mount. Server and first client render agree, so there
+// is no hydration warning and no flash; a visitor with JavaScript off still gets
+// the deploy year, which is at worst one year stale instead of frozen forever.
+const BUILD_YEAR = new Date().getFullYear();
+
 function Copyright() {
- const [year, setYear] = useState(null);
+ const [year, setYear] = useState(BUILD_YEAR);
  useEffect(() => setYear(new Date().getFullYear()), []);
  return (
  <>
- © {year && year > site.established ? `${site.established}–${year}` : site.established}{" "}
+ © {year > site.established ? `${site.established}–${year}` : site.established}{" "}
  Chism Chicken Ranch. All rights reserved.
  </>
  );
