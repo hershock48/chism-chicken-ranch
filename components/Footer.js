@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import GlazedPlate from "@/components/GlazedPlate";
 import { nav, site } from "@/lib/site";
@@ -78,7 +81,15 @@ export default function Footer() {
 
  <div className="border-t border-cream/10">
  <div className="section flex flex-col items-center justify-between gap-x-8 gap-y-2 py-5 text-xs text-cream/65 sm:flex-row sm:flex-wrap">
- <p>© {new Date().getFullYear()} Chism Chicken Ranch. All rights reserved.</p>
+ {/* Rendered from the client, not from the build. Every page here is
+     statically generated, so new Date() ran once at build time and froze:
+     the site would have gone on saying 2026 all through 2027 unless
+     somebody happened to redeploy. Small, but it is the same fault that
+     put "taking orders for 2027" on the reserve page, and a stale
+     copyright line is the classic tell of an abandoned site. Server
+     renders the established year alone, the client fills in the rest,
+     so there is no hydration mismatch and no empty flash. */}
+ <p><Copyright /></p>
  <p>Est. {site.established} · Pasture-raised in Marshall, Michigan · APPPA member</p>
  </div>
  </div>
@@ -102,5 +113,17 @@ function Social({ href, label, children }) {
  {children}
  </svg>
  </a>
+ );
+}
+
+// Client-side so the year is the reader's year, not the deploy's.
+function Copyright() {
+ const [year, setYear] = useState(null);
+ useEffect(() => setYear(new Date().getFullYear()), []);
+ return (
+ <>
+ © {year && year > site.established ? `${site.established}–${year}` : site.established}{" "}
+ Chism Chicken Ranch. All rights reserved.
+ </>
  );
 }

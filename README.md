@@ -59,10 +59,74 @@ SQUARE_ENV=production        # or "sandbox" while testing
 
 Get these from the Square Developer dashboard (developer.squareup.com) using the
 same Square account the farm already uses. Test with sandbox credentials first.
-Until the vars are set, the reserve page gracefully falls back to a
-"pay deposit by Venmo + message us" flow, so nothing errors. The balance is
-always paid by actual weight at pickup — the online step only collects the
-deposit.
+The balance is always paid by actual weight at pickup, the online step only
+collects the deposit.
+
+**Until `SQUARE_ACCESS_TOKEN` is set, checkout runs in a degraded mode and says
+so on screen.** This matters, so it is worth being exact about what each mode
+does:
+
+| | Amount on Square | Bird size recorded | Returns to the thank-you page |
+|---|---|---|---|
+| Token set | The real total, e.g. $26.00 | Yes, on the receipt and in the dashboard | Yes |
+| No token | $6.50, buyer sets quantity | No | No |
+
+Without a token the only thing available is the static Payment Link in
+`lib/site.js`, which is a fixed $6.50 item created in the Square dashboard. It
+cannot be handed a computed amount. So in that mode the interface stops
+promising a total and tells the buyer, before they leave, that they will be
+setting the quantity themselves and what it should add up to.
+
+That candour is deliberate and it is the fix for a real bug. The route used to
+return the static link *first*, ahead of the API, so it always won: the page
+computed $26.00, printed it on the button, sent the order to the server, and the
+server threw the order away and returned a link to a $6.50 page. An amount that
+changes between the button and the payment screen reads as a bait and switch.
+Verified by asking the route for three different orders and getting one identical
+URL back. Do not reintroduce that precedence.
+
+**Every reservation is emailed to the farm before payment**
+(`app/api/reserve/route.js`), carrying the name, phone, size, quantity and the
+estimate the customer was shown. Square is not the order record and never was.
+This needs `RESEND_API_KEY` and `CONTACT_TO`; without them the reservation is
+written to the server log in full and the customer still proceeds, because a
+missing environment variable is the operator's problem and must never surface to
+a visitor as an error.
+
+## The round, and the one constant that opens the next one
+
+Everything seasonal reads from `round` in `lib/site.js`: the eyebrow on
+`/reserve`, the pickup line in the summary, the confirmation screen, and the
+pre-order band on the home page. **Opening round 4 is an edit to that object and
+nothing else.**
+
+When Stutzmans confirms the processing date, set `pickupWindow` to the real one
+and flip `pickupConfirmed` to `true`. That removes the "we will call you with the
+exact date" hedging from four places at once.
+
+Do not compute the season from the clock. The eyebrow used to read
+`` `taking orders for ${new Date().getFullYear() + 1}` ``, which rendered "taking
+orders for 2027" on a page selling birds for October 2026, and rendered it *at
+build time* because `/reserve` is statically generated. A page whose content
+depends on the calendar cannot ask the calendar during the build.
+
+## Bird sizes
+
+Broiler and Roaster are the same flock sorted by dressed weight after
+processing, not two things raised separately. Derek's numbers, 13 Aug 2026:
+broilers 2.5 to 4 lb, roasters 4 lb and up to about 5.5.
+
+Those live on the options in `lib/site.js` and everything else derives from them,
+including the `2.5–4 lb` labels and every estimate. There used to be a single
+`avgWeight: 4.5` applied to both, which meant choosing the Roaster changed the
+label and nothing else: the summary underneath still said 4.5 lb per bird, below
+the bottom of the range printed on the option the customer had just selected.
+
+Estimates are shown as a **range**, not a single figure. The birds vary by more
+than a pound, the price is by actual weight, and a point estimate is a number the
+farm gets held to at the truck. One `estimate()` function in `lib/site.js` serves
+the reserve page and the estimator on the home page and `/how-it-works`, so a
+figure quoted in one place cannot disagree with the same figure elsewhere.
 
 ## Deploy to Vercel
 
@@ -307,6 +371,40 @@ Things worth knowing before editing it:
   from the `mt-24` the others use. Both are for the same reason: the band carries
   about 110px of empty sky at the top for the eggs to fall through, and the point
   is for the eggs to land on top of the heading rather than float near it.
+
+## Redirects, and the QR code on the printed business cards
+
+`next.config.js` carries the full reasoning. The short version:
+
+- `chism-chicken-ranch.vercel.app` 301s to the real domain. That saves anything
+  printed or shared before the domain was connected, and it stops a complete
+  duplicate of the site competing with the farm for its own name in search.
+- `/order`, `/preorder` and `/qr` all 301 to `/reserve`. **Print
+  `chismchickenranch.com/order` on new flyers, never a deep link.** A short path
+  we own can be re-pointed every season without reprinting anything.
+- These use `statusCode: 301` rather than `permanent: true`, which would emit
+  308. Search engines treat the two identically; 301 is the number a redirect
+  checker will show, which is what was asked for.
+- `/api` is excluded from the host redirect, because a 301 is permitted to turn
+  a POST into a GET and would silently drop a form body.
+
+A QR code cannot be edited after printing. Whether the existing cards can be
+saved depends entirely on what URL the code contains, so **scan one and read
+it.** If it is a short link from a generator (qrco.de, bit.ly and similar) the
+destination is a setting in that account, and re-pointing it saves the cards
+outright with no code change. If it is a host we control, add a line here. If it
+is a lapsed host nobody controls, no redirect can help, because the request never
+reaches this server.
+
+## Before launch
+
+- [ ] `SQUARE_ACCESS_TOKEN` and `SQUARE_LOCATION_ID` set in Vercel, then place a
+      real sandbox order and confirm the amount on Square matches the button.
+- [ ] `RESEND_API_KEY` and `CONTACT_TO` set, and a test reservation confirmed
+      arriving in an inbox a human reads.
+- [ ] `round.pickupWindow` set to the confirmed date and `pickupConfirmed` set to
+      `true` once Stutzmans is booked.
+- [ ] The business card QR scanned and its URL recorded here.
 
 ## Notes
 

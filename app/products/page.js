@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
-import { site, images } from "@/lib/site";
+import { site, images, reserveOptions } from "@/lib/site";
 
 export const metadata = {
  title: "Products",
@@ -18,7 +18,10 @@ const products = [
  "Cornish Cross Rock raised on fresh pasture and a 28% protein Non-GMO ration. The same variety you'd find at the store, but raised in fresh air and green grass, the way nature intended.",
  facts: [
  ["Breed", "Cornish Cross Rock"],
- ["Avg. weight", "~4.5 lb after butcher"],
+ // One "~4.5 lb" average sat here while the reserve page offered two sizes
+ // with different ranges. A customer comparing the two pages got two
+ // different answers about the same bird. Both read reserveOptions now.
+ ["Dressed weight", `Broiler ${reserveOptions[0].weight}, roaster ${reserveOptions[1].weight}`],
  ["Price", "~$6.50 / lb at pickup"],
  ["Deposit", "$6.50 / bird to reserve"],
  ],
@@ -41,7 +44,7 @@ const productsJsonLd = {
  "@context": "https://schema.org",
  "@type": "ItemList",
  itemListElement: [
- { name: "Pasture-Raised Meat Chickens", desc: "Cornish Cross Rock raised on pasture with 28% protein Non-GMO feed. ~4.5 lb after butcher.", price: "6.50" },
+ { name: "Pasture-Raised Meat Chickens", desc: `Cornish Cross Rock raised on pasture with 28% protein Non-GMO feed. Broilers ${reserveOptions[0].weight} dressed, roasters ${reserveOptions[1].weight}.`, price: "6.50" },
  { name: "Farm-Fresh Free-Range Eggs", desc: "Rich, golden-yolk eggs from free-ranging hens. Seasonal availability." },
  ].map((p, i) => ({
  "@type": "ListItem",

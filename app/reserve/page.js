@@ -1,12 +1,12 @@
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import ReserveStore from "@/components/ReserveStore";
-import { images, site } from "@/lib/site";
+import { images, site, round, reserveOptions } from "@/lib/site";
 
 export const metadata = {
  title: "Reserve Your Birds",
  description:
- "Reserve pasture-raised chicken from Chism Chicken Ranch. Pay your $6.50-per-bird deposit securely by card through Square, then pay the balance by weight at pickup.",
+ "Pre-order pasture-raised chicken from Chism Chicken Ranch for pickup in early October. Pay your $6.50-per-bird deposit by card, then pay the balance by actual weight at pickup.",
  alternates: { canonical: "/reserve" },
 };
 
@@ -17,13 +17,17 @@ const steps = [
 ];
 
 export default function ReservePage() {
+ // The eyebrow used to read `new Date().getFullYear() + 1`, which printed
+ // "taking orders for 2027" on a page selling birds for this October, and
+ // printed it from the build rather than from today. Both halves wrong. It
+ // reads from the round constant now.
  return (
  <>
  <PageHeader
- eyebrow={`taking orders for ${new Date().getFullYear() + 1}`}
+ eyebrow={`round ${round.number} · pickup ${round.pickupShort}`}
  title="Reserve your"
  accent="birds"
- subtitle="Pre-purchase pasture-raised chicken for spring and summer. Secure your deposit by card in a couple of clicks."
+ subtitle={`Pre-order pasture-raised chicken for pickup ${round.pickupWindow}. Choose your size, see what it will cost, and hold your birds with a deposit.`}
  image={images.hero}
  />
 
@@ -52,8 +56,17 @@ export default function ReservePage() {
  <p>
  <strong className="font-semibold text-ink">Good to know:</strong> the
  deposit is non-refundable, we use it to buy your chicks and their
- starter feed. Final price is by actual weight at pickup (chickens
- average ~{site.pricing.avgWeight} lb, roughly ${site.pricing.perBird} per bird).
+ starter feed. Final price is by actual weight at pickup. Broilers run{" "}
+ {reserveOptions[0].weight} dressed and roasters {reserveOptions[1].weight},
+ so at ${site.pricing.perPound.toFixed(2)} a pound a single bird works out
+ somewhere between $
+ {Math.round(reserveOptions[0].minWeight * site.pricing.perPound)} and $
+ {Math.round(reserveOptions[1].maxWeight * site.pricing.perPound)}.
+ {round.pickupConfirmed
+ ? ""
+ : " Pickup is planned for " +
+ round.pickupWindow +
+ ", and we will call you with the exact date once processing is scheduled."}{" "}
  Prefer to pay another way?{" "}
  <Link href="/contact" className="font-semibold text-terracotta hover:underline">
  Message us

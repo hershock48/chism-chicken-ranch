@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site, images } from "@/lib/site";
+import { site, images, round } from "@/lib/site";
 import ReservationCalculator from "@/components/ReservationCalculator";
 import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
@@ -323,18 +323,19 @@ export default function Home() {
  <section className="mt-24 border-y border-ink/10 bg-wheat/20">
  <div className="section grid items-center gap-10 py-16 lg:grid-cols-2">
  <div className="reveal">
- <span className="eyebrow">ready when you are</span>
+ <span className="eyebrow">round {round.number} is open</span>
  <h2 className="mt-3 display text-4xl sm:text-5xl">
  Reserve your <span className="accent">birds</span> today
  </h2>
  <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
- Pre-purchase for spring and summer with a ${site.pricing.deposit.toFixed(2)}
+ Pre-order for pickup {round.pickupWindow} with a $
+ {site.pricing.deposit.toFixed(2)}
  {" "}deposit per bird, it starts your bird from the hatchery and
  holds your place in our next small batch. Come pick up your birds
  fresh, or ask about delivery.
  </p>
  <ul className="mt-6 space-y-3">
- {["Reserve with a quick message", "We raise & humanely butcher at ~8 weeks", "Pick up fresh, or ask about delivery"].map((t, i) => (
+ {["Reserve online in a couple of minutes", "We raise & humanely butcher at ~8 weeks", "Pick up fresh, or ask about delivery"].map((t, i) => (
  <li key={t} className="flex items-center gap-3 text-ink">
  <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-terracotta text-sm font-bold text-cream">{i + 1}</span>
  {t}
